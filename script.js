@@ -7,8 +7,8 @@ const questions = [
         question: "console.log(('b' + 'a' + + 'a' + 'a').toLowerCase());", 
         answers: [
             { text: "bananaa", correct: false }, 
-            { text: "baaa", correct: true }, 
-            { text: "banana", correct: false }, 
+            { text: "baaa", correct: false }, 
+            { text: "banana", correct: true }, 
             { text: "ananas", correct: false } 
         ]
     },
