@@ -29,8 +29,8 @@ const questions = [
     }
 ];
 
-let currentQuestionIndex = 0; // Şu anki sorunun dizinini sakla
-let score = 0; // Skoru sakla
+let currentQuestionIndex = 0; 
+let score = 0; 
 
 
  // Quiz'e başla işlemi
@@ -57,7 +57,7 @@ function showQuestion() {
         if (answer.correct) {
             button.dataset.correct = answer.correct; 
         }
-        button.addEventListener("click", selectAnswer); // Butona tıklanma olayını dinle
+        button.addEventListener("click", selectAnswer); 
     });
 }
 
@@ -92,7 +92,7 @@ function selectAnswer(e) {
 // Skoru görüntüleme işlemi
 function showScore() {
     resetState(); // Mevcut durumu sıfırla
-    questionElement.innerHTML = `Score: ${score} / ${questions.length}`; // Scoru göster
+    questionElement.innerHTML = `Score: ${score} / ${questions.length}`; 
     nextButton.innerHTML = "Again"; 
     nextButton.style.display = "inline-block"; 
 }
