@@ -32,7 +32,40 @@ body{
     color: #001e4d;
     font-weight: 600;
 }
-.btn{
+.btn
+{
+    background-color: #fff;
+    color: #222;
+    font-weight: 500;
+    width: 100%;
+    border: 1px solid #222;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+#new-answer-1,
+#new-answer-2,
+#new-answer-3,
+#new-answer-4,
+input
+{
+    background-color: #fff;
+    color: #222;
+    font-weight: 500;
+    width: 100%;
+    border: 1px solid #222;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+#new-question
+{
     background-color: #fff;
     color: #222;
     font-weight: 500;
@@ -71,4 +104,23 @@ cursor: no-drop;
 }
 .incorrect{
     background-color: #ff9393;
+}
+#question{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.edit-btn{
+    margin-bottom: 10px;
+}
+#show-add-question-form-btn{
+    background: #fff;
+    color: #001e4d;
+    font-weight: 500;
+    width: 150px;
+    border: 1px solid #001e4d;
+    padding: 10px;
+    margin: 20px auto 0;
+    border-radius: 4px;
+    cursor: pointer;
+
 }
