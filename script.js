@@ -1,207 +1,171 @@
-const questionElement = document.getElementById("question");
-const answerButtons = document.getElementById("answer-buttons");
-const nextButton = document.querySelector(".next-btn");
-const addQuestionForm = document.getElementById("add-question-form");
-const newQuestionInput = document.getElementById("new-question");
-const newAnswerInputs = [
-    document.getElementById("new-answer-1"),
-    document.getElementById("new-answer-2"),
-    document.getElementById("new-answer-3"),
-    document.getElementById("new-answer-4")
-];
-const addNewQuestionBtn = document.getElementById("add-new-question-btn");
 
-const questions = [
-    {
-        question: "console.log(('b' + 'a' + + 'a' + 'a').toLowerCase());",
-        answers: [
-            { text: "bananaa", correct: false },
-            { text: "baaa", correct: false },
-            { text: "banana", correct: true },
-            { text: "ananas", correct: false }
-        ]
-    },
-    {
-        question: "console.log(3 > 2 > 1);",
-        answers: [
-            { text: "true", correct: true },
-            { text: "false", correct: false },
-        ]
-    },
-    {
-        question: "console.log(0.1 + 0.2 == 0.3);",
-        answers: [
-            { text: "true", correct: false },
-            { text: "false", correct: true }
-        ]
+document.addEventListener("DOMContentLoaded", function () {
+    const startBtn = document.querySelector(".start-btn button");
+    const infoBox = document.querySelector(".info-box");
+    const exitBtn = infoBox.querySelector(".buttons .quit");
+    const continueBtn = infoBox.querySelector(".buttons .restart");
+    const quizBox = document.querySelector(".quiz-box");
+    const optionList = document.querySelector(".option-list");
+    const timeCount = quizBox.querySelector(".timer .timer-sec");
+    const timeLine = quizBox.querySelector(".timer .timer-line")
+
+    // "Start Quiz" butonu tıklandığında
+    startBtn.onclick = () => {
+        infoBox.classList.add("activeInfo");
     }
-];
-const showAddQuestionFormBtn = document.getElementById("show-add-question-form-btn");
-const addNewQuestionFormBtn = document.getElementById("add-new-question-btn");
-const questionContainer = document.getElementById("question-container");
-showAddQuestionFormBtn.addEventListener("click", () => {
-    questionContainer.style.display = "none";
-    showAddQuestionFormBtn.style.display = "none";
-    showAddQuestionForm();
-});
 
-addNewQuestionFormBtn.addEventListener("click", () => {
-    questionContainer.style.display = "block";
-    showAddQuestionFormBtn.style.display = "block";
-    addNewQuestion();
-});
+    // "Exit Quiz" butonu tıklandığında
+    exitBtn.onclick = () => {
+        infoBox.classList.remove("activeInfo");
+    }
 
-function showAddQuestionForm() {
-    addQuestionForm.style.display = "block";
+    // "Continue" butonu tıklandığında
+    continueBtn.onclick = () => {
+        infoBox.classList.remove("activeInfo");
+        quizBox.classList.add("activeQuiz");
+        showQuestions(0);
+        startTimer(14);
+        startTimerLine(0);
+    }
+
+    let queCount = 0;
+    let counter;
+    let counterLine;
+    let timeValue = 15;
+    let widthValue = 0;
+    let score = 0;
+
+    const nextBtn = document.querySelector(".next-btn");
+    const resultBox = document.querySelector(".result-box");
     
-}
-
-function addNewQuestion() {
-    const newQuestionText = newQuestionInput.value;
-    const newAnswers = newAnswerInputs.map(input => {
-        return { text: input.value.trim(), correct: false };
-    });
-
-    if (newQuestionText.trim() === "" || newAnswers.some(answer => answer.text === "")) {
-
-        return;
-    }
-
-    questions.push({
-        question: newQuestionText,
-        answers: newAnswers
-    });
-
-    resetAddQuestionForm();
-    alert("New question added!");
-}
-
-function resetAddQuestionForm() {
-    newQuestionInput.value = "";
-    newAnswerInputs.forEach(input => {
-        input.value = "";
-    });
-    addQuestionForm.style.display = "none";
-}
-
-addNewQuestionBtn.addEventListener("click", addNewQuestion);
-document.getElementById("show-add-question-form-btn").addEventListener("click", showAddQuestionForm);
-
-let currentQuestionIndex = 0;
-let score = 0;
-
-function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    showQuestion();
-}
-
-function showQuestion() {
-    resetState();
-    let currentQuestion = questions[currentQuestionIndex];
-    let questionNo = currentQuestionIndex + 1;
-    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
-
-    currentQuestion.answers.forEach(answer => {
-        const button = document.createElement("button");
-        button.innerHTML = answer.text;
-        button.classList.add("btn");
-        answerButtons.appendChild(button);
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
+    // "Next" butonu tıklandığında
+    nextBtn.onclick = () => {
+        if (queCount < questions.length - 1) {
+            queCount++;
+            queCounter(queCount);
+            showQuestions(queCount);
+            clearInterval(counter);
+            startTimer(timeValue);
+            clearInterval(counterLine);
+            startTimerLine(widthValue);
+            nextBtn.style.display = "none";
         }
-        button.addEventListener("click", selectAnswer);
-    });
-    const editButton = document.createElement("button");
-    editButton.innerHTML = '<i class="fas fa-edit"></i>';
-    editButton.classList.add("edit-btn");
-    answerButtons.appendChild(editButton);
-    
-    editButton.addEventListener("click", () => {
-        answerButtons.style.display = "none";
-        editButton.style.display = "none";
-    
-        const editForm = document.createElement("form");
-        const questionInput = document.createElement("input");
-        questionInput.value = currentQuestion.question;
-        editForm.appendChild(questionInput);
-    
-        currentQuestion.answers.forEach((answer, index) => {
-            const answerInput = document.createElement("input");
-            answerInput.value = answer.text;
-            editForm.appendChild(answerInput);
-        });
-    
-        const saveButton = document.createElement("button");
-        saveButton.innerHTML = "Save";
-        saveButton.classList.add("save-btn");
-        editForm.appendChild(saveButton);
-    
-        saveButton.addEventListener("click", (e) => {
-            e.preventDefault(); // Form gönderme olayını iptal et
-            currentQuestion.question = questionInput.value;
-            currentQuestion.answers.forEach((answer, index) => {
-                answer.text = editForm.querySelector("input:nth-child(" + (index + 2) + ")").value;
+        else {
+            console.log("Sorular tamamlandı.");
+            showResultBox();
+        }
+    }
+    // Soru ve cevapları göster.
+    function showQuestions(index) {
+        const queText = document.querySelector(".que-text");
+        let queTag = '<span>' + questions[index].numb + '. ' + questions[index].question + '</span>';
+        let optionTag = '';
+        let options = questions[index].options;
+        queText.innerHTML = queTag;
+
+        for (let i = 0; i < options.length; i++) {
+            optionTag += `<div class="option"><span>${options[i]}</span></div>`;
+        }
+        optionList.innerHTML = optionTag;
+
+        // User Options Selected
+        const option = optionList.querySelectorAll(".option");
+        for (let i = 0; i < option.length; i++) {
+            option[i].addEventListener("click", function () {
+                optionSelected(this);
             });
-        
-            editForm.remove();
-            answerButtons.style.display = "block";
-            editButton.style.display = "block";
-            showQuestion();
-        });
-    
-        answerButtons.parentElement.appendChild(editForm);
-    });
-    
-}
-
-function resetState() {
-    nextButton.style.display = "none";
-    while (answerButtons.firstChild) {
-        answerButtons.removeChild(answerButtons.firstChild);
-    }
-}
-
-function selectAnswer(e) {
-    const selectedBtn = e.target;
-    const isCorrect = selectedBtn.dataset.correct === "true";
-    if (isCorrect) {
-        selectedBtn.classList.add("correct");
-        score++;
-    } else {
-        selectedBtn.classList.add("incorrect");
-    }
-    Array.from(answerButtons.children).forEach(button => {
-        if (button.dataset.correct === "true") {
-            button.classList.add("correct");
         }
-        button.disabled = true;
-    });
-    nextButton.style.display = "inline-block";
-}
+    }
 
-function showScore() {
-    resetState();
-    questionElement.innerHTML = `Score: ${score} / ${questions.length}`;
-    nextButton.innerHTML = "Again";
-    nextButton.style.display = "inline-block";
-}
 
-function handleNextButton() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        showQuestion();
-    } else {
-        showScore();
+    //let tickIcon = ' <div class="icon tick"><i class="fa-solid fa-check"></i></div>';
+    //let crossIcon = ' <div class="icon cross"><i class="fa-solid fa-x"></i></div>';
+
+    // Seçilen optionu kontrol et class ekle
+    function optionSelected(answer) {
+        clearInterval(counter);
+        clearInterval(counterLine);
+        let userAns = answer.textContent;
+        let correctAns = questions[queCount].answer;
+        let allOptions = optionList.children.length;
+        if (userAns === correctAns) {
+            score += 1;
+            answer.classList.add("correct");
+            console.log("Cevap Doğru");
+        } else {
+            answer.classList.add("incorrect");
+            console.log("Cevap Yanlış");
+        }
+        for (let i = 0; i < allOptions; i++) {
+            optionList.children[i].classList.add("disabled");
+        }
+        nextBtn.style.display = "block";
+    }
+
+    function showResultBox() {
+        infoBox.classList.remove("activeInfo");
+        quizBox.classList.remove("activeQuiz");
+        resultBox.classList.add("activeResult");
+        const scoreText = resultBox.querySelector(".score-text");
+        if (score > 3) {
+            let scoreTag = ' <span>Congrast!<p>' + score + '</p> uot of <p>' + questions.length + '</p></span>';
+            scoreText.innerHTML = scoreTag;
+        }
+        else if (score > 1) {
+            let scoreTag = ' <span>Nice :)<p>' + score + '</p> uot of <p>' + questions.length + '</p></span>';
+            scoreText.innerHTML = scoreTag;
+        }
+        else {
+            let scoreTag = ' <span>sorry, bad<p>' + score + '</p> uot of <p>' + questions.length + '</p></span>';
+            scoreText.innerHTML = scoreTag;
+        }
+    }
+
+    // 15sn sayaç kontrol fonk.
+function startTimer(time) {
+    counter = setInterval(timer, 1000);
+    function timer() {
+        timeCount.textContent = time < 10 ? "0" + time : time;
+        time--;
+
+        if (time <= 9) {
+            let addZero = timeCount.textContent;
+            timeCount.textContent = "0" + addZero;
+        }
+        if (time <= 0) {
+            clearInterval(counter);
+            timeCount.textContent = "0";
+            let allOptions = optionList.children.length;
+            for (let i = 0; i < allOptions; i++) {
+                optionList.children[i].classList.add("disabled");
+            }
+            nextBtn.style.display = "block";
+            nextBtn.click(); // Otomatik olarak sonraki soruya geç
+        }
     }
 }
 
-nextButton.addEventListener("click", () => {
-    if (currentQuestionIndex < questions.length) {
-        handleNextButton();
-    } else {
-        startQuiz();
+
+    // Sayaç kontrol çizgisi
+    function startTimerLine(time) {
+        counterLine = setInterval(timer, 29);
+        function timer() {
+            time += 1;
+            timeLine.style.width = time + "px";
+            if (time > 549) {
+                clearInterval(counterLine);
+            }
+        }
     }
+
+    // 2 of 5 questions
+    function queCounter(index) {
+        const bottomQuesCounter = document.querySelector(".total-que"); // Eğer quizBox'un global bir değişken olduğu biliniyorsa, quizBox kullanılabilir
+        let totalQuesCountTag = '<span><p>' + (index + 1) + '</p> of <p>' + questions.length + '</p> Questions</span>';
+        bottomQuesCounter.innerHTML = totalQuesCountTag;
+    }
+    showQuestions(0);
+    queCounter(0);
+
+
 });
-
-startQuiz();
