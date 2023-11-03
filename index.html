@@ -23,12 +23,10 @@
                 <span>Quiz App</span>
             </div>
             <div class="info-list">
-                <div class="info">1. Her soru için sadece <span>15 saniyeniz</span>
-                    var</div>
-                <div class="info">2. "Start Quiz" butonu ile sınavı başlatıp,
-                    "Exit Quiz" butonu ile sınavı bitiriniz.</div>
-                <div class="info">3. 15 saniye sonunda soru cevaplanmazsa
-                    sonraki soruya otomatik geçer</div>
+                <div class="info">1. You only have <span>15 seconds</span>
+                    for each question.</div>
+                <div class="info">2. You can add a new question with the "Add" button.</div>
+                <div class="info">3. If the question is not answered at the end of the time, the system automatically moves on to the next question.</div>
             </div>
             <div class="buttons">
                 <button class="quit">Exit Quiz</button>
@@ -45,9 +43,8 @@
                 <div class="timer">
                     <div class="time-text">Time</div>
                     <div class="timer-sec">15</div>
-                    <div class="timer-line"> 
-                </div>
-                
+                    <div class="timer-line">
+                    </div>
 
                 </div>
             </header>
@@ -70,7 +67,7 @@
                     </div>
                     <div class="option">
                         <span></span>
-                        
+
                     </div>
                 </div>
             </section>
@@ -80,28 +77,69 @@
                 <div class="total-que">
                     <span><p>1</p> of <p>4</p> Questions</span>
                 </div>
-                
+
                 <button class="next-btn">Next</button>
+                
             </footer>
         </div>
 
-         <!-- Result Box -->
-         <div class="result-box">
+        <!-- Result Box -->
+        <div class="result-box">
             <div class="icon">
-                <i class="fas fa-crown"></i>
+                <i class="fa-solid fa-trophy"></i>
             </div>
             <div class="complete-text"></div>
             <div class="score-text">
-             <span>and sorry, you got only <p>2</p> uot of <p>5</p></span>
+                <span> <p></p>  <p></p></span>
             </div>
             <div class="buttons">
-             <button class="restart">Replay Quiz</button>
-             <button class="quit">Quit Quiz</button>
-             <button class="add-question-btn">Add Question</button>
-             <button class="edit-question-btn">Edit Question</button>
+                <button class="replay-btn">Replay Quiz</button>
+                <button class="quit-btn">Quit Quiz</button>
+                <button class="add-btn">add</button>
+              <!--   <button class="edit-btn">edit</button> -->
             </div>
+        </div>
 
-         </div>
+
+<form id="addQuestionForm" class="add-question-form"  style="display: none;">
+    <div class="add-box">
+    <header>
+        <div class="title">
+            Add New Question
+        </div>
+    </header>
+    <section>
+    
+    <div class="option-list">
+        
+            <div class="option">
+        
+            <input type="text" id="questionInput" placeholder="Add question text here" required>
+        </div>
+        <div class="option">
+           <input type="text" id="option1Input" placeholder="1. Answer" required>
+        </div>
+        <div class="option">
+                <input type="text" id="option2Input" placeholder="2. Answer" required>
+        </div>
+        <div class="option">
+               <input type="text" id="option3Input" placeholder="3. Answer" required>
+        </div>
+        <div class="option">
+     <input type="text" id="option4Input" placeholder="4. Answer" required>
+        </div>
+         <div class="option">
+        <input type="text" id="answerInput" placeholder="True Answer" required>
+        </div>
+    </div>
+    <section>
+
+   
+             <button class="add-que"  type="submit">Add Que</button>
+      
+   
+</div>
+</form>
 
         <script src="./script.js"> </script>
         <script src="./questions.js"> </script>

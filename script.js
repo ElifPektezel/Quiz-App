@@ -7,7 +7,67 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizBox = document.querySelector(".quiz-box");
     const optionList = document.querySelector(".option-list");
     const timeCount = quizBox.querySelector(".timer .timer-sec");
-    const timeLine = quizBox.querySelector(".timer .timer-line")
+    const timeLine = quizBox.querySelector(".timer .timer-line");
+
+const addQuestionForm = document.getElementById('addQuestionForm');
+const questionInput = document.getElementById('questionInput');
+const option1Input = document.getElementById('option1Input');
+const option2Input = document.getElementById('option2Input');
+const option3Input = document.getElementById('option3Input');
+const option4Input = document.getElementById('option4Input');
+const answerInput = document.getElementById('answerInput');
+
+// "Add" butonuna tıklandıpında gerçekleşenler
+const addBtn = document.querySelector('.add-btn');
+addBtn.addEventListener('click', function() {
+    addQuestionForm.style.display = 'block';
+    resultBox.classList.remove("activeResult");
+    startBtn.style.display = "none";
+});
+
+
+// Form gönderildiğinde yeni soruyu al ve işle
+addQuestionForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    queCount = 0; //quizi baştan başlatır
+    infoBox.classList.remove("activeInfo");
+    quizBox.classList.add("activeQuiz");
+    resultBox.classList.remove("activeResult");
+    addQuestionForm.style.display = 'none';
+    showQuestions(0);
+    startTimer(14);
+    startTimerLine(0);
+    // Kullanıcının girdiği bilgileri çek
+    const newQuestion = {
+        numb: questions.length + 1,
+        question: questionInput.value,
+        options: [
+            option1Input.value,
+            option2Input.value,
+            option3Input.value,
+            option4Input.value
+        ],
+        answer: answerInput.value
+    };
+
+    // Yeni soruyu mevcut soru havuzuna ekle
+    questions.push(newQuestion);
+    localStorage.setItem('questions', JSON.stringify(questions));
+
+    // Kullanıcının girdiği alanları temizle
+    questionInput.value = '';
+    option1Input.value = '';
+    option2Input.value = '';
+    option3Input.value = '';
+    option4Input.value = '';
+    answerInput.value = '';
+    console.log('Yeni soru eklendi:', newQuestion);
+
+    
+});
+
+
+
 
     // "Start Quiz" butonu tıklandığında
     startBtn.onclick = () => {
@@ -37,6 +97,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const nextBtn = document.querySelector(".next-btn");
     const resultBox = document.querySelector(".result-box");
+    const replayBtn = document.querySelector(".replay-btn");
+    const quitBtn = document.querySelector(".quit-btn");
+
+
+    replayBtn.onclick = () => {
+        queCount = 0; // Oyunu baştan başlat
+        infoBox.classList.remove("activeInfo");
+        quizBox.classList.add("activeQuiz");
+        resultBox.classList.remove("activeResult");
+        showQuestions(0);
+        startTimer(14);
+        startTimerLine(0);
+    }
+    
+    quitBtn.onclick = () => {
+        location.reload();
+        localStorage.clear();
+    }
     
     // "Next" butonu tıklandığında
     nextBtn.onclick = () => {
@@ -49,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
             clearInterval(counterLine);
             startTimerLine(widthValue);
             nextBtn.style.display = "none";
+            
         }
         else {
             console.log("Sorular tamamlandı.");
@@ -68,6 +147,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         optionList.innerHTML = optionTag;
 
+        
+
         // User Options Selected
         const option = optionList.querySelectorAll(".option");
         for (let i = 0; i < option.length; i++) {
@@ -76,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
-
 
     //let tickIcon = ' <div class="icon tick"><i class="fa-solid fa-check"></i></div>';
     //let crossIcon = ' <div class="icon cross"><i class="fa-solid fa-x"></i></div>';

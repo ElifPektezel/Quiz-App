@@ -84,7 +84,13 @@ body{
     border-top: 1px solid lightgray;
 }
 
-.info-box .buttons button{
+.info-box .buttons button,
+.replay-btn,
+.quit-btn,
+.add-btn,
+.edit-btn,
+.add-que
+{
 margin: 0 5px;
 height: 40px;
 width: 100px;
@@ -95,21 +101,59 @@ font-size: 16px;
 font-weight: 500;
 cursor: pointer;
 }
+.add-que{
+    float: right;
+    margin-bottom: 25px;
+}
+.add-btn
+{
+    border-color: #007bff;
+    background-color: #fff;
+    color: #007bff;
+}
+
+
+.edit-btn,
+.add-que
+{
+    color: #fff;
+    border-color: #007bff;
+    background-color: #007bff;
+}
 .buttons button.restart{
     color: #fff;
     border-color: #007bff;
+    background-color: #007bff;
 }
 .buttons button.restart:hover{
-    border-color: #0263ca;
+    border-color: #007bff;
+    background-color: #007bff;
+
 }
 .buttons button.quit{
     border-color: #007bff;
+    background-color: #fff;
+    color: #007bff;
 }
 .buttons button.quit:hover{
     color: #fff;
     border-color: #007bff;
+    background-color: #007bff;
 }
-.quiz-box{
+
+.replay-btn{
+    border-color: #007bff;
+    background-color: #fff;
+    color: #007bff;
+}
+.quit-btn{
+    color: #fff;
+    border-color: #007bff;
+    background-color: #007bff;
+}
+
+.quiz-box
+{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -122,8 +166,22 @@ cursor: pointer;
     background-color: #fff;
     box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.1);
 }
+.add-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(0.9); 
+    width: 550px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.1);
+}
 
-.quiz-box header{
+
+.quiz-box header,
+.add-box header
+{
     position: relative;
     z-index: 99;
     height: 70px;
@@ -136,7 +194,9 @@ cursor: pointer;
     border-bottom:1px solid rgba(0, 0, 0, 0.1);
 }
     
-.quiz-box header .title{
+.quiz-box header .title
+.add-box header .title
+{
 font-size: 20px;
 font-weight: 600;
 }
@@ -179,18 +239,31 @@ left: 0px;
 height: 3px;
 background: #007bff;
 }
-.quiz-box section{
+.quiz-box section,
+.add-box section
+
+{
     padding:  25px 30px 20px 30px;
     background-color: #fff;
 }
-.quiz-box section .que-text{
+.quiz-box section .que-text
+.add-box section .que-text
+{
     font-size: 25px;
     font-weight: 600;
 }
 
-.quiz-box section .option-list{
+.quiz-box section .option-list
+.add-box section .option-list
+{
     padding: 20px;
     display: block;
+}
+.option input{
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
 }
 
 section .option-list .option{
@@ -205,7 +278,19 @@ section .option-list .option{
     justify-content: space-between;
     cursor: pointer;
 }
-
+.add-box section .option-list .option{
+    background-color:  aliceblue;
+    height: 40px;
+    border: 1px solid #84c5fe;
+    padding: 0 ;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
 section .option-list .option:hover{
     color: #004085;
     background-color: #cce5ff;
@@ -251,7 +336,9 @@ section .option-list .option:hover{
 .option-list .option.disabled{
     pointer-events: none;
 }
-.quiz-box footer{
+.quiz-box footer,
+.add-box footer
+{
     height: 60px;
     width: 100%;
     padding: 0 30px;
@@ -260,7 +347,9 @@ section .option-list .option:hover{
     justify-content: space-between;
 }
 
-.quiz-box footer .total-que span {
+.quiz-box footer .total-que span,
+.add-box footer .total-que span
+{
     display: flex;
     user-select: none;
 

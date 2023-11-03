@@ -42,3 +42,6 @@ let questions = [
     }
 ];
 
+if (localStorage.getItem('questions')) {
+    questions = JSON.parse(localStorage.getItem('questions'));
+}
