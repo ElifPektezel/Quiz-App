@@ -9,7 +9,8 @@ let questions = [
             "Hyper Text Markup Language",
             "Hyper Text Multiple Language",
             "Hyper Tool Multi Language"
-        ]
+        ],
+        userAnswer: null,
     },
     {
         numb: 2,
@@ -20,7 +21,8 @@ let questions = [
             "baaa",
             "banana",
             "ananas"
-        ]
+        ],
+        userAnswer: null,
     },
     {
         numb: 3,
@@ -29,7 +31,8 @@ let questions = [
         options: [
             "true",
             "false"
-        ]
+        ],
+        userAnswer: null,
     },
     {
         numb: 4,
@@ -38,10 +41,12 @@ let questions = [
         options: [
             "true",
             "false"
-        ]
+        ],
+        userAnswer: null,
     }
 ];
 
 if (localStorage.getItem('questions')) {
     questions = JSON.parse(localStorage.getItem('questions'));
 }
+

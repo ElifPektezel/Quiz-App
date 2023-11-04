@@ -25,8 +25,11 @@
             <div class="info-list">
                 <div class="info">1. You only have <span>15 seconds</span>
                     for each question.</div>
-                <div class="info">2. You can add a new question with the "Add" button.</div>
-                <div class="info">3. If the question is not answered at the end of the time, the system automatically moves on to the next question.</div>
+                <div class="info">2. You can add a new question with the "Add"
+                    button.</div>
+                <div class="info">3. If the question is not answered at the end
+                    of the time, the system automatically moves on to the next
+                    question.</div>
             </div>
             <div class="buttons">
                 <button class="quit">Exit Quiz</button>
@@ -55,11 +58,9 @@
                 <div class="option-list">
                     <div class="option">
                         <span></span>
-                        <div class="icon tick"><i class="fa-solid fa-check"></i></div>
                     </div>
                     <div class="option">
                         <span></span>
-                        <div class="icon cross"><i class="fa-solid fa-x"></i></div>
                     </div>
                     <div class="option">
                         <span></span>
@@ -75,11 +76,11 @@
             <!-- quizz box footer -->
             <footer>
                 <div class="total-que">
-                    <span><p>1</p> of <p>4</p> Questions</span>
+                    <span><p></p>  <p></p> Questions</span>
                 </div>
 
                 <button class="next-btn">Next</button>
-                
+
             </footer>
         </div>
 
@@ -90,58 +91,63 @@
             </div>
             <div class="complete-text"></div>
             <div class="score-text">
-                <span> <p></p>  <p></p></span>
+                <span> <p></p> <p></p></span>
             </div>
+
             <div class="buttons">
                 <button class="replay-btn">Replay Quiz</button>
                 <button class="quit-btn">Quit Quiz</button>
                 <button class="add-btn">add</button>
-              <!--   <button class="edit-btn">edit</button> -->
+                <!--   <button class="edit-btn">edit</button> -->
             </div>
         </div>
 
+        <form id="addQuestionForm" class="add-question-form"
+            style="display: none;">
+            <div class="add-box">
+                <header>
+                    <div class="title">
+                        Add New Question
+                    </div>
+                </header>
+                <section>
 
-<form id="addQuestionForm" class="add-question-form"  style="display: none;">
-    <div class="add-box">
-    <header>
-        <div class="title">
-            Add New Question
-        </div>
-    </header>
-    <section>
-    
-    <div class="option-list">
-        
-            <div class="option">
-        
-            <input type="text" id="questionInput" placeholder="Add question text here" required>
-        </div>
-        <div class="option">
-           <input type="text" id="option1Input" placeholder="1. Answer" required>
-        </div>
-        <div class="option">
-                <input type="text" id="option2Input" placeholder="2. Answer" required>
-        </div>
-        <div class="option">
-               <input type="text" id="option3Input" placeholder="3. Answer" required>
-        </div>
-        <div class="option">
-     <input type="text" id="option4Input" placeholder="4. Answer" required>
-        </div>
-         <div class="option">
-        <input type="text" id="answerInput" placeholder="True Answer" required>
-        </div>
-    </div>
-    <section>
+                    <div class="option-list">
 
-   
-             <button class="add-que"  type="submit">Add Que</button>
-      
-   
-</div>
-</form>
+                        <div class="option">
 
-        <script src="./script.js"> </script>
-        <script src="./questions.js"> </script>
-    </body>
-</html>
+                            <input type="text" id="questionInput"
+                                placeholder="Add question text here" required>
+                        </div>
+                        <div class="option">
+                            <input type="text" id="option1Input"
+                                placeholder="1. Answer" required>
+                        </div>
+                        <div class="option">
+                            <input type="text" id="option2Input"
+                                placeholder="2. Answer" required>
+                        </div>
+                        <div class="option">
+                            <input type="text" id="option3Input"
+                                placeholder="3. Answer" required>
+                        </div>
+                        <div class="option">
+                            <input type="text" id="option4Input"
+                                placeholder="4. Answer" required>
+                        </div>
+                        <div class="option">
+                            <input type="text" id="answerInput"
+                                placeholder="True Answer" required>
+                        </div>
+                    </div>
+                    <section>
+
+                        <button class="add-que" type="submit">Add Que</button>
+                        <button class="cancel" type="submit">Cancel</button>
+                    </div>
+                </form>
+
+                <script src="./script.js"> </script>
+                <script src="./questions.js"> </script>
+            </body>
+        </html>
