@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showQuestions(0);
         startTimer(14);
         startTimerLine(0);
+        location.reload();
     }
 
     quitBtn.onclick = () => {
@@ -221,7 +222,7 @@ let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div><
             answer: answerInput.value
         };
 
-        // Yeni soruyu mevcut soru havuzuna ekle
+        // Yeni soruyu mevcut soru dizinine ekle
         questions.push(newQuestion);
         localStorage.setItem('questions', JSON.stringify(questions));
 
