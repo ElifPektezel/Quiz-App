@@ -8,12 +8,123 @@ document.addEventListener("DOMContentLoaded", function () {
     const optionList = document.querySelector(".option-list");
     const timeCount = quizBox.querySelector(".timer .timer-sec");
     const timeLine = quizBox.querySelector(".timer .timer-line");
+    const signupBtn = document.querySelector(".signupBtn");
+    const loginBtn = document.querySelector(".loginBtn");
+    const navbarMenu = document.querySelector(".navbar .links");
+    const hamburgerBtn = document.querySelector(".hamburger-btn");
+    const hideMenuBtn = navbarMenu.querySelector(".close-btn");
+    const showPopupBtn = document.querySelector(".login-btn");
+    const formPopup = document.querySelector(".form-popup");
+    const hidePopupBtn = formPopup.querySelector(".close-btn");
+    const signupLoginLink = formPopup.querySelectorAll(".bottom-link a");
+
+
+    // Show mobile menu
+    hamburgerBtn.addEventListener("click", () => {
+        navbarMenu.classList.toggle("show-menu");
+    });
+
+    // Hide mobile menu
+    hideMenuBtn.addEventListener("click", () => hamburgerBtn.click());
+
+    // Show login popup
+    showPopupBtn.addEventListener("click", () => {
+        document.body.classList.toggle("show-popup");
+    });
+
+    // Hide login popup
+    hidePopupBtn.addEventListener("click", () => showPopupBtn.click());
+
+    // Show or hide signup form
+    signupLoginLink.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            formPopup.classList[link.id === 'signup-link' ? 'add' : 'remove']("show-signup");
+        });
+    });
+
+
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+    let quizState = JSON.parse(localStorage.getItem('quizState')) || {};
+
+    // "Signup" butonu tıklandığında
+    signupBtn.addEventListener("click", signup);
+
+    function signup() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username && password) {
+            // Kullanıcıyı kaydet
+            users[username] = password;
+            alert('Üye kaydınız başarıyla oluşturuldu!');
+            // Kullanıcılar localStorage'a kaydedildiğindeki zamanı sakla
+            localStorage.setItem('usersTimestamp', new Date().getTime());
+            // Local Storage'da kullanıcıları güncelle
+            localStorage.setItem('users', JSON.stringify(users));
+            //kullanıcı kaydı tutulur
+            localStorage.setItem('signupEvent', JSON.stringify({ timestamp: new Date().getTime(), user: username }));
+        } else {
+            alert('Kullanıcı adı ve şifre boş bırakılamaz!');
+        }
+    }
+
+    // "Login" butonu tıklandığında
+    loginBtn.addEventListener("click", login);
+
+    function login() {
+        const loginUsername = document.getElementById('loginUsername').value;
+        const loginPassword = document.getElementById('loginPassword').value;
+        const name = document.getElementById('name').value;
+        // Kullanıcı doğrulama
+        if (users[loginUsername] === loginPassword) {
+            alert('Giriş başarılı! Hoş geldiniz, ' + loginUsername + '!');
+            localStorage.setItem('usersTimestamp', new Date().getTime());
+            document.querySelector('.hamburger-btn').innerText = 'Hoş geldiniz, ' + name + '!';
+            document.querySelector('.login-btn').innerHTML = '<i class="fa fa-sign-out"></i>';
+            quizState = { quizActive: true };
+            document.body.classList.remove("show-popup");
+            // kullanıcı girişi tutulur
+            localStorage.setItem('loginEvent', JSON.stringify({ timestamp: new Date().getTime(), user: loginUsername }));
+        } else {
+            alert('Kullanıcı adı veya şifre hatalı!');
+        }
+    }
+    // Sayfa yenilendiğinde localStorage'dan kullanıcı bilgilerini kontrol et
+    const usersTimestamp = parseInt(localStorage.getItem('usersTimestamp')) || 0;
+    const currentTime = new Date().getTime();
+    // Eğer kullanıcılar bir saat önce veya daha önce kaydedildiyse, localStorage'ı sıfırla
+    if (currentTime - usersTimestamp > 3600000) {
+        localStorage.removeItem('users');
+        localStorage.removeItem('usersTimestamp');
+    }
+
 
     // "Start Quiz" butonu tıklandığında
     startBtn.onclick = () => {
-        infoBox.classList.add("activeInfo");
+        if (isLoggedIn()) {
+
+            infoBox.classList.add("activeInfo");
+            localStorage.setItem('startQuizEvent', JSON.stringify({ timestamp: new Date().getTime() }));
+        } else {
+
+            alert("Giriş yapınız!");
+        }
     }
 
+    function isLoggedIn() {
+        // localStorage'dan kullanıcı bilgisini al
+        const userData = localStorage.getItem('users');
+
+        // Kullanıcı bilgisi kontrol et
+        if (userData) {
+            const users = JSON.parse(userData);
+            if (Object.keys(users).length > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
     // "Exit Quiz" butonu tıklandığında
     exitBtn.onclick = () => {
         infoBox.classList.remove("activeInfo");
@@ -31,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancel = document.querySelector(".cancel");
     cancel.onclick = () => {
         location.reload();
-       
+
     }
 
     let queCount = 0;
@@ -40,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let timeValue = 15;
     let widthValue = 0;
     let score = 0;
-
     const nextBtn = document.querySelector(".next-btn");
     const resultBox = document.querySelector(".result-box");
     const replayBtn = document.querySelector(".replay-btn");
@@ -55,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showQuestions(0);
         startTimer(14);
         startTimerLine(0);
-        location.reload();
+        location.reload(); //Oyunu başlattığında result-box'ta div.result tekrarlanmasın diye ekledim yanlış yol olabilir.
     }
 
     quitBtn.onclick = () => {
@@ -74,11 +184,12 @@ document.addEventListener("DOMContentLoaded", function () {
             clearInterval(counterLine);
             startTimerLine(widthValue);
             nextBtn.style.display = "none";
+            localStorage.setItem('nextQuestionEvent', JSON.stringify({ timestamp: new Date().getTime(), questionIndex: queCount }));
 
         }
         else {
-            console.log("Sorular tamamlandı.");
             showResultBox();
+            localStorage.setItem('quizCompleteEvent', JSON.stringify({ timestamp: new Date().getTime(), score: score }));
         }
     }
     // Soru ve cevapları göster.
@@ -114,11 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
             score += 1;
             answer.classList.add("correct");
             questions[queCount].userAnswer = userAns;
-            console.log("Cevap Doğru");
+            console.log("Doğru");
         } else {
             answer.classList.add("incorrect");
             questions[queCount].userAnswer = userAns;
-            console.log("Cevap Yanlış");
+            console.log("Yanlış");
         }
         for (let i = 0; i < allOptions; i++) {
             optionList.children[i].classList.add("disabled");
@@ -127,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let trueIcon = '<td><div class="true-icn"><i class="fa-solid fa-check"></i></div></td>';
-let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div></td>';
+    let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div></td>';
 
     function showResultBox() {
         infoBox.classList.remove("activeInfo");
@@ -145,40 +256,40 @@ let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div><
         else {
             let scoreTag = ' <span>sorry, bad<p>' + score + '</p> of <p>' + questions.length + '</p></span>';
             scoreText.innerHTML = scoreTag;
-        } 
+        }
 
         for (let i = 0; i < questions.length; i++) {
             const result = document.createElement('div');
             result.classList.add('result');
-        
+
             const questionNumber = document.createElement('div');
             questionNumber.classList.add('question-number');
-            questionNumber.textContent =  + (i + 1) + '.';
-        
+            questionNumber.textContent = + (i + 1) + '.';
+
             const userAnswer = document.createElement('div');
             userAnswer.classList.add('user-answer');
-        
+
             const icon = document.createElement('div');
             icon.classList.add('icon');
-            icon.classList.add('align-right'); 
-        
+            icon.classList.add('align-right');
+
             if (questions[i].userAnswer === questions[i].answer) {
                 icon.innerHTML = trueIcon;
             } else {
                 icon.innerHTML = falseIcon;
             }
-        
-            userAnswer.textContent =  questions[i].userAnswer;
-        
+
+            userAnswer.textContent = questions[i].userAnswer;
+
             result.appendChild(questionNumber);
             result.appendChild(userAnswer);
             result.appendChild(icon);
-        
+
             resultBox.appendChild(result);
         }
-        
-        
-        
+
+
+
     }
 
     // add-que elements
@@ -233,13 +344,20 @@ let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div><
         option3Input.value = '';
         option4Input.value = '';
         answerInput.value = '';
-        console.log('Yeni soru eklendi:', newQuestion);
+        location.reload();
 
     });
 
 
     // 15sn sayaç kontrol fonk.
     function startTimer(time) {
+        let myModal = document.getElementById('myModal');
+
+        function resetAlertBox() {
+            myModal.style.right = '-300px'; // Kapat
+            clearTimeout(timeout);
+        }
+
         counter = setInterval(timer, 1000);
         function timer() {
             timeCount.textContent = time < 10 ? "0" + time : time;
@@ -258,6 +376,21 @@ let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div><
                 }
                 nextBtn.style.display = "block";
                 nextBtn.click(); // Otomatik olarak sonraki soruya geç
+
+            }
+            // 10 saniyenin altına düşünce alert göster
+
+
+            if (time < 10) {
+                myModal.style.display = 'block';
+                timeout = setTimeout(function () {
+                    resetAlertBox();
+                }, 5000);// 5000 5sn sonra alert kutusunu kapatır.
+            }
+
+            let closeBtn = document.getElementsByClassName('close')[0];
+            closeBtn.onclick = function () {
+                resetAlertBox();
             }
         }
     }
@@ -277,12 +410,12 @@ let falseIcon = '<td><div class="false-icn"><i class="fa-solid fa-x"></i></div><
 
     // 2 of 5 questions
     function queCounter(index) {
-        const bottomQuesCounter = document.querySelector(".total-que"); 
+        const bottomQuesCounter = document.querySelector(".total-que");
         let totalQuesCountTag = '<span><p>' + (index + 1) + '</p> of <p>' + questions.length + '</p> Questions</span>';
         bottomQuesCounter.innerHTML = totalQuesCountTag;
     }
     showQuestions(0);
     queCounter(0);
 
-
+    localStorage.setItem('DOMContentLoadedEvent', JSON.stringify({ timestamp: new Date().getTime() }));
 });

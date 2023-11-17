@@ -16,11 +16,85 @@
     </head>
     <body>
 
+        <header>
+            <nav class="navbar">
+                <span class="hamburger-btn material-symbols-rounded">QuizApp</span>
+                <ul class="links">
+                    <span class="close-btn material-symbols-rounded">close</span>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
+                <button class="login-btn">LOG IN</button>
+            </nav>
+        </header>
+        <div class="blur-bg-overlay"></div>
+        <div class="form-popup">
+            <span class="close-btn material-symbols-rounded">close</span>
+            <div class="form-box login">
+                <div class="form-details">
+                    <h2>Welcome Back</h2>
+                    <p>Please log in using your personal information to stay connected with us.</p>
+                </div>
+                <div class="form-content">
+                    <h2>LOGIN</h2>
+                    <form action="#">
+                        <div class="input-field">
+                        <input type="text" id="loginUsername" required>
+                        <label for="loginUsername">Email</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" id="loginPassword" required>
+                            <label for="loginPassword">Password</label>
+                        </div>
+                        <a href="#" class="forgot-pass-link">Forgot password?</a>
+                        <button type="submit" class="loginBtn" onclick="login()">Log In</button>
+                    </form>
+                    <div class="bottom-link">
+                        Don't have an account?
+                        <a href="#" id="signup-link">Signup</a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-box signup">
+                <div class="form-details">
+                    <h2>Create Account</h2>
+                    <p>To become a part of our community, please sign up using your personal information.</p>
+                </div>
+                <div class="form-content">
+                    <h2>SIGNUP</h2>
+                    <form action="#">
+                        <div class="input-field">
+                            <input type="text" id="username" required>
+                            <label for="username">Enter your email</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="user" id="name" required>
+                            <label for="name">Enter your name</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="password" type="password" required>
+                            <label for="password">Create password</label>
+                        </div>
+                   
+                       
+                        <button type="submit" class="signupBtn" onclick="signup()">Sign Up</button>
+                    </form>
+                    <div class="bottom-link">
+                        Already have an account? 
+                        <a href="#" id="login-link">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="start-btn"> <button>Start Quiz</button> </div>
 
         <div class="info-box">
             <div class="info-title">
-                <span>Quiz App</span>
+                <span></span>
             </div>
             <div class="info-list">
                 <div class="info">1. You only have <span>15 seconds</span>
@@ -41,7 +115,7 @@
         <div class="quiz-box">
             <header>
                 <div class="title">
-                    Quiz App
+                  
                 </div>
                 <div class="timer">
                     <div class="time-text">Time</div>
@@ -95,7 +169,7 @@
             </div>
 
             <div class="buttons">
-                <button class="replay-btn">Replay Quiz</button>
+                <button class="replay-btn">Replay</button>
                 <button class="quit-btn">Quit Quiz</button>
                 <button class="add-btn">add</button>
                 <!--   <button class="edit-btn">edit</button> -->
@@ -145,9 +219,17 @@
                         <button class="add-que" type="submit">Add Que</button>
                         <button class="cancel" type="submit">Cancel</button>
                     </div>
-                </form>
+        </form>
 
-                <script src="./script.js"> </script>
-                <script src="./questions.js"> </script>
+        <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>Süre 10 saniyenin altına düştü!</p>
+                    </div>
+        </div>
+
+
+        <script src="./script.js"> </script>
+        <script src="./questions.js"> </script>
             </body>
         </html>
